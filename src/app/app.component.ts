@@ -1,5 +1,6 @@
 import { Component, OnDestroy } from '@angular/core';
 import { AngularFireDatabase, AngularFireObject } from 'angularfire2/database';
+import * as firebase from 'firebase';
 import { Observable, Subscription } from 'rxjs';
 
 @Component({
@@ -9,36 +10,24 @@ import { Observable, Subscription } from 'rxjs';
 })
 export class AppComponent  {
   courses$: Observable<any[]>;//todo retorno do metodo List é um Observable<any[]>
-  courses$New: AngularFireObject<any>;
-  courses$Add: Observable<any>;
-  courses$04: Observable<any>;
-  author: Observable<any>;
-  courses: any[] = [];
-  subscrition:Subscription;
+  itemRef: AngularFireObject<any>;
+
+
 
   constructor(private db: AngularFireDatabase) {
-   this.subscrition = this.db
-    .list('/courses')
-    .valueChanges()
-    .subscribe((data) => {
-      (this.courses = data)});
-
-    this.courses$ = this.db.list('/courses').valueChanges();
-    this.courses$04 = this.db.object('/courses/4').valueChanges();
-    this.author = this.db.object('courses/author/1').valueChanges();
-    this.courses$New = this.db.object('/courses');
-    this.courses$Add = this.courses$New.valueChanges();
-
+     this.courses$ =  db.list('/courses').valueChanges();
+     console.log(this.courses$);
+     this.itemRef = this.db.object('/courses');
    };
 
    add(data: HTMLInputElement){
-     console.log(data.value)
-     this.courses$New.set({value: data.value});
-     this.courses$
-
+     console.log(data.value);
+     this.itemRef.set({name: data.value, isPremium: false, student: 10000});
+    // this.itemRef.
      data.value = '';
-
+    }
+   update(course){
+     this.itemRef.update({name:' Tony o novo nome'})
    }
-
 
 } // end class

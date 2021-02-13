@@ -1,15 +1,6 @@
-<ul *ngFor="let item of courses$ | async; let i = index">
-  <li>{{ item | json }}</li>
-</ul>
-<p>{{ (courses$04 | async | json ) }}</p>
-<p> Nosso Autor: {{ (courses$04 | async)?.course4.author |json }}</p>
-<p> Quantidade de Estudantes: {{ (courses$04 | async)?.course4.students }}</p>
-<p> É Premium: {{ (courses$04 | async)?.course4.isPremium }}</p>
-<br>
-<ul *ngIf="author | async as author">
-  <li>{{ author?.name }}</li>
-  <li>{{ author?.isPremium }}</li>
-  <li>{{ author?.students }}</li>
+<ul *ngFor="let item of courses$ |async">
+  <li> {{ (item || item?.name)|json}}</li>
+  <button (click)="update(item)">Update</button>
 </ul>
 
 <input type="text" text="Add Object" (keyup.enter)="add(data)" #data>
